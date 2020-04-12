@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="sk-autobots", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Caleb Castleberry",
     author_email="castle.caleb@gmail.com",
     description="Custom data transformers that use the scikit-learn API.",
