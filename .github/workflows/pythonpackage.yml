@@ -1,51 +1,47 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: Python package
+name: Upload Python Package
 
 on:
   push:
-    branches: [ master ]
-  #pull_request:
-  #  branches: [ master ]
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
-  build:
-
+  release:
+    name: Create Release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+          draft: false
+          prerelease: false
+  deploy:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: '3.x'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Lint with flake8
+        pip install setuptools wheel twine
+    - name: Build and publish
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
-        pip install flake8
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pip install pytest
-        pytest
-    - name: pypi-publish
-      uses: pypa/gh-action-pypi-publish@v1.1.0
-      with:
-        # PyPI user
-        user: skautobots
-        # Password for your PyPI user or an access token
-        password: pypi-AgEIcHlwaS5vcmcCJDRmYjVkMWJiLWNkMTktNGFjZS1hNzU3LWIzZDkwNTJkODU5MgACPHsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJzay1hdXRvYm90cyJdfSwgInZlcnNpb24iOiAxfQAABiCrFU_H2bWZ-49HIEMGgzni3g6U8MCuqxXUh1p9PgH8gg
-        # The repository URL to use
-        repository_url: https://pypi.org/project/sk-autobots/
-        # The target directory for distribution
-        packages_dir: dist
+        python setup.py sdist bdist_wheel
+        twine upload dist/*
