@@ -60,7 +60,8 @@ class DateFourier(BaseEstimator, TransformerMixin):
             # 'minuteofday',  # TODO add functionality for time of day
         ]
         if not all([x in valid_periods for x in self.periods]):
-            raise ValueError(f'Periods must be a subset of {valid_periods}')
+            raise ValueError(
+                'Periods must be a subset of {}'.format(valid_periods))
 
     def fit(self, X, y=None):
         """Check data and if cols=None select all datetime columns.
