@@ -115,17 +115,17 @@ class DateFourier(BaseEstimator, TransformerMixin):
         for col in self.cols:
             cyclical_cols = {}
             if 'dayofweek' in self.periods:
-                df[f'{col}_day_of_week'] = df['load_date'].dt.dayofweek
-                cyclical_cols[f'{col}_day_of_week'] = 7
+                df['{}_day_of_week'.format(col)] = df['load_date'].dt.dayofweek
+                cyclical_cols['{}_day_of_week'.format(col)] = 7
             if 'dayofmonth' in self.periods:
-                df[f'{col}_day_of_month'] = df['load_date'].dt.day
-                cyclical_cols[f'{col}_day_of_month'] = 31
+                df['{}_day_of_month'.format(col)] = df['load_date'].dt.day
+                cyclical_cols['{}_day_of_month'.format(col)] = 31
             if 'dayofyear' in self.periods:
-                df[f'{col}_day_of_year'] = df['load_date'].dt.dayofyear
-                cyclical_cols[f'{col}_day_of_year'] = 365
+                df['{}_day_of_year'.format(col)] = df['load_date'].dt.dayofyear
+                cyclical_cols['{}_day_of_year'.format(col)] = 365
             if 'monthofyear' in self.periods:
-                df[f'{col}_month'] = df['load_date'].dt.month
-                cyclical_cols[f'{col}_month'] = 12
+                df['{}_month'.format(col)] = df['load_date'].dt.month
+                cyclical_cols['{}_month'.format(col)] = 12
 
             for fcol, max_val in cyclical_cols.items():
                 for i in range(1, self.fourier + 1):
