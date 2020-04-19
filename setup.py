@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="sk-autobots", # Replace with your own username
+    name="sk-autobots",  # Replace with your own username
     version="0.0.2",
     author="Caleb Castleberry",
     author_email="castle.caleb@gmail.com",
