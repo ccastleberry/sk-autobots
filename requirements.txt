@@ -1,9 +1,9 @@
-autopep8==1.5.1
-coverage==5.1
-flake8==3.7.9
-matplotlib==3.2.1
-numpy==1.18.2
+autopep8==1.5
+coverage==5
+flake8==3
+matplotlib==3
+numpy==1
 pandas==1
-pytest==5.4.1
-pytest-cov==2.8.1
-twine==3.1.1
+pytest==5
+pytest-cov==2
+twine==3
