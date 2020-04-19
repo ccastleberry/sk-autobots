@@ -1,0 +1,5 @@
+[run]
+source=skautobots
+
+omit =
+    tests/*
