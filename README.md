@@ -1,4 +1,4 @@
-![TestsAndCoverage](https://github.com/ccastleberry/sk-autobots/workflows/TestsAndCoverage/badge.svg)
+![TestsAndCoverage](https://github.com/ccastleberry/sk-autobots/workflows/CITests/badge.svg)
 [![codecov](https://codecov.io/gh/ccastleberry/sk-autobots/branch/master/graph/badge.svg)](https://codecov.io/gh/ccastleberry/sk-autobots)
 
 
