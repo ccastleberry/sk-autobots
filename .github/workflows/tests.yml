@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Python package
+name: TestsAndCoverage
 
 on:
   push:
@@ -34,7 +34,23 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Install package
+      run: |
+        python setup.py install
     - name: Test with pytest
       run: |
         pip install pytest
         pytest
+    - name: Codecov
+      uses: codecov/codecov-action@v1.0.6
+      with:
+        # User defined upload name. Visible in Codecov UI
+        name: # optional
+        # Repository upload token - get it from codecov.io. Required only for private repositories
+        token: # optional
+        # Path to coverage file to upload
+        file: # optional
+        # Flag upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
+        flags: # optional
+        # Specify whether or not CI build should fail if Codecov runs into an error during upload
+        fail_ci_if_error: # optional
