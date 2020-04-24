@@ -40,7 +40,7 @@ class DateLinear(BaseEstimator, TransformerMixin):
 
         # check to make sure periods are valid
         valid_periods = [
-            'dayfoweek',
+            'dayofweek',
             'dayofmonth',
             'dayofyear',
             'monthofyear',
@@ -65,7 +65,7 @@ class DateLinear(BaseEstimator, TransformerMixin):
             Returns self.
         """
         # Check input
-        X = check_array(X, accept_sparse=True)
+        #X = check_array(X, accept_sparse=True, dtype=None)
 
         self.n_features_ = X.shape[1]
 
@@ -96,7 +96,7 @@ class DateLinear(BaseEstimator, TransformerMixin):
         check_is_fitted(self, 'n_features_')
 
         # Input validation
-        X = check_array(X, accept_sparse=True)
+        #X = check_array(X, accept_sparse=True, dtype=None)
         df = X
 
         for col in self.cols:
@@ -109,7 +109,7 @@ class DateLinear(BaseEstimator, TransformerMixin):
             if 'monthofyear' in self.periods:
                 df['{}_month'.format(col)] = df[col].dt.month
             if 'year' in self.periods:
-                df['{}_year'.format(col)] = df[col].dt.month
+                df['{}_year'.format(col)] = df[col].dt.year
 
         if self.drop_base_cols:
             df = df.drop(self.cols, axis='columns')

@@ -55,7 +55,7 @@ class DateFourier(BaseEstimator, TransformerMixin):
 
         # check to make sure periods are valid
         valid_periods = [
-            'dayfoweek',
+            'dayofweek',
             'dayofmonth',
             'dayofyear',
             'monthofyear',
@@ -80,7 +80,7 @@ class DateFourier(BaseEstimator, TransformerMixin):
             Returns self.
         """
         # Check input
-        X = check_array(X, accept_sparse=True)
+        #X = check_array(X, accept_sparse=True, dtype=None)
 
         self.n_features_ = X.shape[1]
 
@@ -111,7 +111,7 @@ class DateFourier(BaseEstimator, TransformerMixin):
         check_is_fitted(self, 'n_features_')
 
         # Input validation
-        X = check_array(X, accept_sparse=True)
+        #X = check_array(X, accept_sparse=True, dtype=None)
         df = X
 
         for col in self.cols:
