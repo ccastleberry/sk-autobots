@@ -14,9 +14,11 @@ def fourier_cos_encoding(series, max_val, n=1):
 
 
 class DateFourier(BaseEstimator, TransformerMixin):
-    """ A transformer that .
-    For more information regarding how to build your own transformer, read more
-    in the :ref:`User Guide <user_guide>`.
+    """ A transformer that adds fourier terms for a given date period.
+
+    For each passed in date column this transformer will compute
+    a number of columns for the fourier series based on the passed in
+    periods.
 
     Parameters
     ----------
@@ -53,7 +55,7 @@ class DateFourier(BaseEstimator, TransformerMixin):
 
         # check to make sure periods are valid
         valid_periods = [
-            'dayfoweek',
+            'dayofweek',
             'dayofmonth',
             'dayofyear',
             'monthofyear',
@@ -78,7 +80,7 @@ class DateFourier(BaseEstimator, TransformerMixin):
             Returns self.
         """
         # Check input
-        X = check_array(X, accept_sparse=True)
+        #X = check_array(X, accept_sparse=True, dtype=None)
 
         self.n_features_ = X.shape[1]
 
@@ -109,22 +111,22 @@ class DateFourier(BaseEstimator, TransformerMixin):
         check_is_fitted(self, 'n_features_')
 
         # Input validation
-        X = check_array(X, accept_sparse=True)
+        #X = check_array(X, accept_sparse=True, dtype=None)
         df = X
 
         for col in self.cols:
             cyclical_cols = {}
             if 'dayofweek' in self.periods:
-                df['{}_day_of_week'.format(col)] = df['load_date'].dt.dayofweek
+                df['{}_day_of_week'.format(col)] = df[col].dt.dayofweek
                 cyclical_cols['{}_day_of_week'.format(col)] = 7
             if 'dayofmonth' in self.periods:
-                df['{}_day_of_month'.format(col)] = df['load_date'].dt.day
+                df['{}_day_of_month'.format(col)] = df[col].dt.day
                 cyclical_cols['{}_day_of_month'.format(col)] = 31
             if 'dayofyear' in self.periods:
-                df['{}_day_of_year'.format(col)] = df['load_date'].dt.dayofyear
+                df['{}_day_of_year'.format(col)] = df[col].dt.dayofyear
                 cyclical_cols['{}_day_of_year'.format(col)] = 365
             if 'monthofyear' in self.periods:
-                df['{}_month'.format(col)] = df['load_date'].dt.month
+                df['{}_month'.format(col)] = df[col].dt.month
                 cyclical_cols['{}_month'.format(col)] = 12
 
             for fcol, max_val in cyclical_cols.items():
