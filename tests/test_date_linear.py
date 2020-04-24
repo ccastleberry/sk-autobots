@@ -34,4 +34,5 @@ def test_datetime_column_runs(data):
     )
     transformer.fit(df)
     transformed_df = transformer.transform(df)
+    assert True
     
