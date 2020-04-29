@@ -5,4 +5,9 @@
 # sk-autobots
 Custom data transformers that use the scikit-learn API. 
 
+# Install
+You can install this library through pip.
+
+`pip install sk-autobots`
+
 
